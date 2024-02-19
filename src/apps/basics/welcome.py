@@ -10,7 +10,7 @@ async def start(client, response):
 
     # Page initial
     if not postdata:
-        buttons = keymakers(["✅ Continue"], ["start-1"])
+        buttons = keymakers(["✅ Continue", "IP API DEMO"], ["start-1", "ipQ-0"])
         await response.reply("""✅ The bot is on now!.
 
 You can use other functions for the control commands.""", reply_markup=buttons)

@@ -1,10 +1,10 @@
 {
     "platform": "Telegram",
-    "name": "Take you name from https://t.me/BotFather",
-    "mention": "@your_bot",
-    "url": "https://t.me/your_bot",
-    "api_id": "Take you api_id from https://t.me/BotFather",
-    "api_hash": "Take you api_hash from https://t.me/BotFather",
-    "bot_token": "Take you bot_token from https://t.me/BotFather",
+    "name": "PRL412sys",
+    "mention": "@prl412bot",
+    "url": "https://t.me/prl412bot",
+    "api_id": 26981189,
+    "api_hash": "0793407482789e11f5591b751498051c",
+    "bot_token": "6588894238:AAEaOXR8jTTRidoXGvroVP9Pju4WGHuqXoo",
     "dir_plugins": "apps"
 }
