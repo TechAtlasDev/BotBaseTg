@@ -1,5 +1,4 @@
 import os, json, importlib, sys
-from moduls.utils import database as db
 
 def send_postdata(file_id, postdata):
     dir_principal = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
