@@ -33,14 +33,14 @@ The code above will create an `InlineKeyboardMarkup` object with two buttons:
     buttons = []
     for text, postdata in zip(list_text, list_postdata):
         if postdata.startswith("WEB"):
-            url = postdata.split("-")[1]
+            url = "-".join(postdata.split("-")[1:])
             lB += [InlineKeyboardButton(str(text), url=url)]
         else:
             lB += [InlineKeyboardButton(str(text), callback_data=postdata)]
 
 
     if add_basics:
-        buttons = InlineKeyboardMarkup([lB, [InlineKeyboardButton(str(text), callback_data=str(postdata)) for text, postdata in zip(["Return"], ["start-1"])]])
+        buttons = InlineKeyboardMarkup([lB, [InlineKeyboardButton(str(text), callback_data=str(postdata)) for text, postdata in zip(["Return"], ["start-0"])]])
     else:
         buttons = InlineKeyboardMarkup([lB])
 

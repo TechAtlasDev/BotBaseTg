@@ -1,9 +1,11 @@
 import os, json, importlib, sys
 
 def send_postdata(file_id, postdata):
+    data = f'content = "{postdata}"'
     dir_principal = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
     route = os.path.join(dir_principal, 'moduls', 'postdata', f'{file_id}.py')
-    data = f'content = {postdata}'
+    if postdata.isdigit():
+        data = f'content = {postdata}'
     open(route, "w").write(data)
 
 def get_postdata(file_id):
