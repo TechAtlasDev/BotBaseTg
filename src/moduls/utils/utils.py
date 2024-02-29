@@ -1,31 +1,38 @@
-import os, json, importlib, sys
+import os, json, pickle, random, sys, time
 
-def send_postdata(file_id, postdata):
-    data = f'content = "{postdata}"'
-    dir_principal = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
-    route = os.path.join(dir_principal, 'moduls', 'postdata', f'{file_id}.py')
-    if postdata.isdigit():
-        data = f'content = {postdata}'
-    open(route, "w").write(data)
+# VAR
+DIRPOSTSAVED = "moduls/postdata/postdataSaved.pkl"
 
-def get_postdata(file_id):
+def getX(): 
+    if os.path.exists(DIRPOSTSAVED):
+        file = open(DIRPOSTSAVED, "rb")
+        content = pickle.load(file)
+        return content
+    return {}
+
+def saveVAR(var):
+    code = genCode()
+    diccionario = getX()
+    diccionario[code] = var
+    file = open(DIRPOSTSAVED, "wb")
+    pickle.dump(diccionario, file)
+    return code
+
+def getVAR(code, delete=True):
     try:
-        module_name = f"moduls.postdata.{file_id}"
-        module = importlib.import_module(module_name)
-        variable = module.content
-        
-        # Eliminar el archivo start.py
-        module_path = module.__file__
-        if os.path.exists(module_path):
-            os.remove(module_path)
-        
-        # Eliminar el módulo importado
-        if module_name in sys.modules:
-            del sys.modules[module_name]
-        
-        return variable
-    except ModuleNotFoundError:
+        diccionario = getX()
+        data = diccionario.get(code, None)
+        if delete:
+            del diccionario[code]
+            file = open(DIRPOSTSAVED, "wb")
+            pickle.dump(diccionario, file)
+        return data
+    except KeyError:
         return None
+
+def genCode(length=7):
+    return "VAR:"+''.join(random.choices('0123456789ABCDEF', k=length))
+
     
 def clear_terminal():
   os.system('cls' if os.name == 'nt' else 'clear')
@@ -67,5 +74,65 @@ async def loading_message(message, sticker_id=0):
     message_f = await message.reply_sticker(LISTA_STICKERS[sticker_id])
     return message_f
 
+# -- TEXT OUTPUTS --
+
+# --- ANIMATION
+def animINFO(s):
+    """An function for animate INFO DATA in the console
+* s: The text that will be animated"""
+    s = f"{colors.BLUE}[{colors.WHITE}INFO{colors.BLUE}] {colors.WHITE}{s}"
+    for c in s + '\n':
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(2. / 150)
+
+def animDONE(s):
+    """An function for animate SUCCESS DATA in the console
+* s: The text that will be animated"""
+    s = f"{colors.GREEN}[{colors.WHITE}DONE{colors.GREEN}] {colors.WHITE}{s}"
+    for c in s + '\n':
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(2. / 150)
+
+
+def animERROR(s):
+    """An function for animate ERROR DATA in the console
+* s: The text that will be animated"""
+    s = f"{colors.RED}[{colors.WHITE}ERROR{colors.RED}] {colors.WHITE}{s}"
+    for c in s + '\n':
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(2. / 150)
+
+def animDEBUG(s):
+    """An function for animate DEBUG DATA in the console
+* s: The text that will be animated"""
+    s = f"{colors.MAGENTA}[{colors.WHITE}DEBUG{colors.MAGENTA}] {colors.WHITE}{s}"
+    for c in s + '\n':
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(2. / 150)
+
+def anim(s):
+    """An function for animate text in the console
+* s: The text that will be animated"""
+    for c in s + '\n':
+        sys.stdout.write(c)
+        sys.stdout.flush()
+        time.sleep(2. / 150)
+
+# -- END TEXT OUTPUTS --
+
+
+
 if __name__ == "__main__":
-    print ("Utilities system")
+    import colors
+    animINFO("System turn ON")
+    animDONE("The message has been sent successfully")
+    animERROR("An error has been occurred")
+    animDEBUG("User registered - 972378")
+    anim("Hello world")
+
+else:
+    from moduls.utils import colors
